@@ -1,4 +1,4 @@
-/*colors:#008ecc; #0d52bd; #191970; #4169C1; #6495ED; #0F4D92  */
+/*colors:#D6EEEE, #008ecc; #0d52bd; #191970; #4169C1; #6495ED; #0F4D92  */
 
 * {
   box-sizing: border-box;
@@ -17,6 +17,10 @@ body {
 
 nav {
   background-color:#191970;
+  color:#f5f5f5;
+}
+
+.nav-brand {
   color:#f5f5f5;
 }
 
@@ -155,7 +159,9 @@ nav {
   padding-bottom:0.75rem;
   padding-left:0.5rem;
   border-radius:18px;
-  border:1px solid #0F4D92;
+  border:none;
+  box-shadow:0px 0px 5px #222;
+  
 }
 
 .user-email button {
@@ -171,4 +177,36 @@ nav {
   background-color:transparent;
   border:1px solid #008ecc;
   color:#0d52bd;
+}
+
+.list-container {
+  margin:auto;
+  width:85vw;
+  display:flex;
+  justify-content:center;
+  padding-top:3rem;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color:#D6EEEE;
+}
+
+tr:nth-child(even):hover {
+  background-color:#f5f5f5;
+}
+
+tr:nth-child(odd):hover {
+  background-color:#D6EEEE;
 }
