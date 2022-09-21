@@ -73,7 +73,7 @@ nav {
 
 .add-event {
   width: 47vw;
-  height:84vh;
+  height:87vh;
   box-shadow:0 0 6px #222;
   border-radius:5px;
   text-align:center;
@@ -199,6 +199,10 @@ td, th {
   padding: 8px;
 }
 
+tr {
+  cursor:pointer;
+}
+
 tr:nth-child(even) {
   background-color:#D6EEEE;
 }
@@ -209,4 +213,10 @@ tr:nth-child(even):hover {
 
 tr:nth-child(odd):hover {
   background-color:#D6EEEE;
+}
+
+.edit-delete {
+  display:flex;
+  justify-content:space-between;
+  width:80%;
 }

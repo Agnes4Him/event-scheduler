@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom"
 import Navbar from '../components/NavBar'
+import { MdDelete, MdEdit } from "react-icons/md";
 
 const ViewEvents = () => {
 
@@ -24,21 +25,21 @@ const ViewEvents = () => {
                     <td>05/09/2022</td>
                     <td>01/10/2022</td>
                     <td>Ahead</td>
-                    <td>Icon</td>
+                    <td><div className="edit-delete"><MdEdit className="edit-icon"/><MdDelete className="delete-icon"/></div></td>
                 </tr>
                 <tr>
                     <td>Travel to the UK</td>
                     <td>06/09/2022</td>
                     <td>02/11/2022</td>
                     <td>Ahead</td>
-                    <td>Icon</td>
+                    <td><div className="edit-delete"><MdEdit className="edit-icon"/><MdDelete className="delete-icon"/></div></td>
                 </tr>
                 <tr>
                     <td>Write AWS</td>
                     <td>08/09/2022</td>
                     <td>05/11/2022</td>
                     <td>Ahead</td>
-                    <td>Icon</td>
+                    <td><div className="edit-delete"><MdEdit className="edit-icon"/><MdDelete className="delete-icon"/></div></td>
                 </tr>
             </table>
 

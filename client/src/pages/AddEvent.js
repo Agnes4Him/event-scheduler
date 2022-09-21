@@ -15,6 +15,27 @@ const AddEvent = () => {
         setEventDetails("")
     }
 
+    const handleSaveEvent = () => {
+        // Send a post request to the backend
+
+        // Check for empty fields first
+        const eventObj = {
+            date : date,
+            email : eventEmail,
+            details : eventDetails
+        }
+
+        fetch('/api/add-event', {
+            method : 'POST',
+            headers : {
+                'Content-Type' : "application/json"
+            },
+            body : JSON.stringify(eventObj)
+        })
+
+        //Remember to set all inputs field back to empty
+    }
+
     return (
         <div>
             <NavBar />
@@ -48,7 +69,7 @@ const AddEvent = () => {
             </div>
             <div className="cancel-save">
                 <button className="cancel-btn" onClick={handleCancelEvent}>Cancel</button>
-                <button className="save-btn">Save</button>
+                <button className="save-btn" onClick={handleSaveEvent}>Save</button>
             </div>
         </div>
         </div>       
