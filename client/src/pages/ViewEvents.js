@@ -12,6 +12,7 @@ const ViewEvents = () => {
         <div className="view-container">
             <Navbar />
             <div className="list-container">
+                <h3>Welcome { email }</h3>
             <table>
                 <tr>
                     <th>Event</th>
