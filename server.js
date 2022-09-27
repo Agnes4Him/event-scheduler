@@ -3,6 +3,7 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const addEventRoute = require('./src/routes/addEventRoute')
+const confirmEmailRoute = require('./src/routes/confirmEmailRoute')
 
 dotenv.config()
 
@@ -15,6 +16,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 app.use(addEventRoute)
+app.use(confirmEmailRoute)
 
 mongoose.connect(schedulerDb, {useNewUrlParser:true, useUnifiedTopology:true})
 .then((result) => {

@@ -8,6 +8,8 @@ const AddEvent = () => {
     const [date, setDate] = useState(new Date())
     const [eventEmail, setEventEmail] = useState("")
     const [eventDetails, setEventDetails] = useState("")
+    const [eventError, setEventError] = useState("")
+    const [eventSuccess, setEventSuccess] = useState("")
 
     const handleCancelEvent = () => {
         setDate(new Date())
@@ -19,21 +21,48 @@ const AddEvent = () => {
         // Send a post request to the backend
 
         // Check for empty fields first
-        const eventObj = {
-            date : date,
-            email : eventEmail,
-            details : eventDetails
+        if (eventEmail.length === 0) {
+            setEventError("Email is required")
+            setEventSuccess("")
+        }else if (eventDetails.length === 0) {
+            setEventError("Please enter the details of event")
+            setEventSuccess("")
+        }else {
+            const eventObj = {
+                date : date,
+                email : eventEmail,
+                details : eventDetails
+            }
+            fetch('/api/add-event', {
+                method : 'POST',
+                headers : {
+                    'Content-Type' : "application/json"
+                },
+                body : JSON.stringify(eventObj)
+            })
+            .then((response) => {
+                return response.json()
+            })
+            .then((result) => {
+                if (result.message === "server_error") {
+                    setEventError("Internal server error. Try again later")
+                    setEventSuccess("")
+                }else {
+                    setEventSuccess("A new event has been saved")
+                    setEventError("")
+                    setDate(new Date())
+                    setEventEmail("")
+                    setEventDetails("")
+                    setTimeout(() => {
+                        setEventSuccess("")
+                    }, 2000)
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         }
-
-        fetch('/api/add-event', {
-            method : 'POST',
-            headers : {
-                'Content-Type' : "application/json"
-            },
-            body : JSON.stringify(eventObj)
-        })
-
-        //Remember to set all inputs field back to empty
+      
     }
 
     return (
@@ -72,7 +101,9 @@ const AddEvent = () => {
                 <button className="save-btn" onClick={handleSaveEvent}>Save</button>
             </div>
         </div>
-        </div>       
+        </div> 
+        { !eventSuccess && eventError && <div className="event-error">{ eventError }</div> }
+        { !eventError && eventSuccess && <div className="event-success">{ eventSuccess }</div> }        
         </div>
     
     )

@@ -9,6 +9,7 @@ const Main = () => {
 
     const [showUserEmail, setShowUserEmail] = useState(false)
     const [viewEmail, setViewEmail] = useState("")
+    const [errorMsg, setErrorMsg] = useState("")
 
     const navigate = useNavigate()
 
@@ -26,7 +27,30 @@ const Main = () => {
 
     const handleOnSendEmail = (e) => {
         e.preventDefault()
-        navigate(`/view-events/${viewEmail}`)
+        if (viewEmail.length === 0) {
+            setErrorMsg("Email is required")
+        }else {
+            fetch('/api/confirm-email', {
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                },
+                body:JSON.stringify({email:viewEmail})
+            })
+            .then((response) => {
+                return response.json()
+            })
+            .then((result) => {
+                if (result.message === "no_email") {
+                    setErrorMsg("That email does not exist")
+                }else if (result.message === "server_error") {
+                    setErrorMsg("Internal server error. Try again later")
+                }else {
+                    setErrorMsg("")
+                    navigate(`/view-events/${viewEmail}`)
+                }
+            })
+        }
     }
 
     return (
@@ -39,6 +63,7 @@ const Main = () => {
                 </div>
                 <hr />
                 { showUserEmail && <UserEmail viewEmail={viewEmail} onSetViewEmail={handleOnSetViewEmail} onSendEmail={handleOnSendEmail} /> }
+                { errorMsg && <div className="error-msg">{ errorMsg }</div> }
             </div>
         </div>
     )

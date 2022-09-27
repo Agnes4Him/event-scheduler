@@ -179,12 +179,19 @@ nav {
   color:#0d52bd;
 }
 
+.view-container h3 {
+  text-align:center;
+  margin-top:3rem;
+  color:#6495ED;
+  font-size:1.5rem;
+}
+
 .list-container {
   margin:auto;
   width:85vw;
   display:flex;
   justify-content:center;
-  padding-top:3rem;
+  padding-top:1rem;
 }
 
 table {
@@ -197,6 +204,10 @@ td, th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
+}
+
+th {
+  color:#4169C1;
 }
 
 tr {
@@ -219,4 +230,29 @@ tr:nth-child(odd):hover {
   display:flex;
   justify-content:space-between;
   width:80%;
+}
+
+.error-msg {
+  text-align:center;
+  color:red;
+  margin-top:2rem;
+  font-weight:bold;
+}
+
+.event-error {
+  position:absolute;
+  right:5vw;
+  top:30vh;
+  width:15vw;
+  color:red;
+  font-weight:bold;
+}
+
+.event-success {
+  position:absolute;
+  right:5vw;
+  top:30vh;
+  width:15vw;
+  color:green;
+  font-weight:bold;
 }
