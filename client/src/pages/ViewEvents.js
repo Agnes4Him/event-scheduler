@@ -1,18 +1,61 @@
+import { useEffect, useState } from 'react'
 import { useParams } from "react-router-dom"
 import Navbar from '../components/NavBar'
 import { MdDelete, MdEdit } from "react-icons/md";
 
 const ViewEvents = () => {
 
+    const [ noEvents, setNoEvents ] = useState(false)
+    const [ exceptMsg, setExceptMsg ] = useState("")
+    const [ data, setData ] = useState([])
+
     const { email } = useParams()
 
-    // Remember to factor in codes when user email has no event saved in database yet...
+    useEffect(() => {
+
+        fetch(`/api/get-events/${email}`)
+        .then((response) => {
+            return response.json()
+        })
+        .then((result) => {
+            console.log(result)
+            if(result.message === "no_events") {
+                setNoEvents(true)
+                setExceptMsg("There are no events associated with this email")
+            }else if(result.message === "no_user") {
+                setNoEvents(true)
+                setExceptMsg("This email/ user does not exist")
+            }else if(result.message === "server_error") {
+                setNoEvents(true)
+                setExceptMsg("Internal server error. Try again")
+            }else {
+                setNoEvents(false)
+                setData(result.message.events)
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }, [email])
+
+    const handleEventDelete = (e) => {
+
+        const id = e.currentTarget.dataset.id
+
+        fetch(`/api/delete-event/${id}/${email}`, {
+            method : "DELETE",
+            headers: {
+                'Content-type': 'application/json'
+            }
+        })
+    }
 
     return (
         <div className="view-container">
             <Navbar />
             <h3>Welcome { email }</h3>
-            <div className="list-container">
+            { noEvents && <h4 className="except-msg">{exceptMsg}</h4> }
+            { !noEvents && <div className="list-container">
             <table>
                 <tr>
                     <th>Event</th>
@@ -21,30 +64,18 @@ const ViewEvents = () => {
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
-                <tr>
-                    <td>Attend conference</td>
-                    <td>05/09/2022</td>
-                    <td>01/10/2022</td>
-                    <td>Ahead</td>
-                    <td><div className="edit-delete"><MdEdit className="edit-icon"/><MdDelete className="delete-icon"/></div></td>
-                </tr>
-                <tr>
-                    <td>Travel to the UK</td>
-                    <td>06/09/2022</td>
-                    <td>02/11/2022</td>
-                    <td>Ahead</td>
-                    <td><div className="edit-delete"><MdEdit className="edit-icon"/><MdDelete className="delete-icon"/></div></td>
-                </tr>
-                <tr>
-                    <td>Write AWS</td>
-                    <td>08/09/2022</td>
-                    <td>05/11/2022</td>
-                    <td>Ahead</td>
-                    <td><div className="edit-delete"><MdEdit className="edit-icon"/><MdDelete className="delete-icon"/></div></td>
-                </tr>
+                {data.map((item) => (
+                    <tr key={item._id}>
+                        <td>{item.event}</td>
+                        <td>{item.datecreated.split("T")[0]}</td>
+                        <td>{item.eventdate.split("T")[0]}</td>
+                        <td>Ahead</td>
+                        <td><div className="edit-delete"><MdEdit className="edit-icon"/><MdDelete className="delete-icon" data-id={item._id} onClick={handleEventDelete} /></div></td>
+                    </tr>
+                ))}
             </table>
 
-            </div>
+            </div> }
         </div>
     )
 }

@@ -210,10 +210,6 @@ th {
   color:#4169C1;
 }
 
-tr {
-  cursor:pointer;
-}
-
 tr:nth-child(even) {
   background-color:#D6EEEE;
 }
@@ -230,6 +226,14 @@ tr:nth-child(odd):hover {
   display:flex;
   justify-content:space-between;
   width:80%;
+}
+
+.edit-icon, .delete.icon {
+  cursor:pointer;
+}
+
+.edit-icon:hover, .delete.icon:hover {
+  color:#191970;
 }
 
 .error-msg {
@@ -255,4 +259,10 @@ tr:nth-child(odd):hover {
   width:15vw;
   color:green;
   font-weight:bold;
+}
+
+.except-msg {
+  text-align:center;
+  margin-top:2rem;
+  color:red;
 }
