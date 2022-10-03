@@ -266,3 +266,52 @@ tr:nth-child(odd):hover {
   margin-top:2rem;
   color:red;
 }
+
+.update-event {
+  margin:auto;
+  width:85vw;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+.update-event h3 {
+  text-align:center;
+  margin-top:4rem;
+  margin-bottom:3rem;
+  color:#008ecc;
+}
+
+.update-event .date-details {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  width:70%;
+}
+
+.date-details input {
+  padding:0.5rem 3rem;
+  
+}
+
+.date-details .update-btn {
+  text-align:center;
+  margin-top:2rem;
+}
+
+.update-btn button {
+  padding:0.5rem 1rem;
+  font-size:0.9rem;
+  border-radius:16px;
+  border:none;
+  background-color:#4169C1;
+  color:#dddddd;
+}
+
+.update-btn button:hover {
+  background-color:#6495ED;
+  color:#f5f5f5;
+}
+
+

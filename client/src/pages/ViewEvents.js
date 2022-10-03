@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import Navbar from '../components/NavBar'
 import { MdDelete, MdEdit } from "react-icons/md";
 
@@ -8,8 +8,11 @@ const ViewEvents = () => {
     const [ noEvents, setNoEvents ] = useState(false)
     const [ exceptMsg, setExceptMsg ] = useState("")
     const [ data, setData ] = useState([])
+    const [ userId, setUserId ] = useState("")
 
     const { email } = useParams()
+
+    const navigate = useNavigate()
 
     useEffect(() => {
 
@@ -31,6 +34,7 @@ const ViewEvents = () => {
             }else {
                 setNoEvents(false)
                 setData(result.message.events)
+                setUserId(result.message._id)
             }
         })
         .catch((err) => {
@@ -48,6 +52,11 @@ const ViewEvents = () => {
                 'Content-type': 'application/json'
             }
         })
+    }
+
+    const handleUpdateEvent = (e) => {
+        const eventId = e.currentTarget.dataset.id
+        navigate(`/update-event/${userId}/${eventId}`)
     }
 
     return (
@@ -70,7 +79,7 @@ const ViewEvents = () => {
                         <td>{item.datecreated.split("T")[0]}</td>
                         <td>{item.eventdate.split("T")[0]}</td>
                         <td>Ahead</td>
-                        <td><div className="edit-delete"><MdEdit className="edit-icon"/><MdDelete className="delete-icon" data-id={item._id} onClick={handleEventDelete} /></div></td>
+                        <td><div className="edit-delete"><MdEdit className="edit-icon" data-id={item._id} onClick={handleUpdateEvent} /><MdDelete className="delete-icon" data-id={item._id} onClick={handleEventDelete} /></div></td>
                     </tr>
                 ))}
             </table>
