@@ -7,6 +7,8 @@ const UpdateEvent = () => {
 
     const [date, setDate] = useState(new Date())
     const [ eventDetails, setEventDetails ] = useState("")
+    const [ updateError, setUpdateError ] = useState("")
+    const [ updateSuccess, setUpdateSuccess ] = useState("")
 
     const { userId, eventId } = useParams()
 
@@ -27,6 +29,34 @@ const UpdateEvent = () => {
         })
     }, [userId, eventId])
 
+    const handleUpdate = () => {
+
+        const updatedEventObj = {
+            date : date,
+            event : eventDetails
+        }
+
+        fetch(`/api/update-event/${userId}/${eventId}`, {
+            method:"PUT",
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(updatedEventObj)
+        })
+        .then((response) => {
+            return response.json()
+        })
+        .then((result) => {
+            if (result.message === "server_error") {
+                setUpdateError("Internal server error. Try again")
+                setUpdateSuccess("")
+            }else {
+                setUpdateSuccess("Update was successful!")
+                setUpdateError("")
+            }
+        })
+    }
+
     return (
         <div>
             <Navbar />
@@ -41,11 +71,13 @@ const UpdateEvent = () => {
                         onChange={(e) => setEventDetails(e.target.value)}
                         />
                         <div className="update-btn">
-                            <button>Update</button>
+                            <button onClick={handleUpdate}>Update</button>
                         </div>
                     </div>
                 </div>
             </div>
+            { updateError && <div className="update-error">{ updateError }</div> }
+            { updateSuccess && <div className="update-success">{ updateSuccess }</div> }
         </div>
     )
 }

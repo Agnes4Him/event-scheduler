@@ -314,4 +314,20 @@ tr:nth-child(odd):hover {
   color:#f5f5f5;
 }
 
+.update-error {
+  position:absolute;
+  right:10vw;
+  top:25vh;
+  color:red;
+  font-weight:bold;
+}
+
+.update-success {
+  position:absolute;
+  right:10vw;
+  top:25vh;
+  color:green;
+  font-weight:bold;
+}
+
 

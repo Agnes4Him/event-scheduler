@@ -7,6 +7,7 @@ const confirmEmailRoute = require('./src/routes/confirmEmailRoute')
 const getEventsRoute = require('./src/routes/getEventsRoute')
 const deleteEventRoute = require('./src/routes/deleteEventRoute')
 const getOneEventRoute = require('./src/routes/getOneEventRoute')
+const updateEventRoute = require('./src/routes/updateEventRoute')
 
 dotenv.config()
 
@@ -23,6 +24,7 @@ app.use(confirmEmailRoute)
 app.use(getEventsRoute)
 app.use(deleteEventRoute)
 app.use(getOneEventRoute)
+app.use(updateEventRoute)
 
 mongoose.connect(schedulerDb, {useNewUrlParser:true, useUnifiedTopology:true})
 .then((result) => {
