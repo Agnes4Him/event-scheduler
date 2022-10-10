@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from "react-router-dom"
 import Navbar from '../components/NavBar'
 import { MdDelete, MdEdit } from "react-icons/md";
+//import EventStatus from '../components/EventStatus';
 
 const ViewEvents = () => {
 
@@ -35,6 +36,7 @@ const ViewEvents = () => {
                 setNoEvents(false)
                 setData(result.message.events)
                 setUserId(result.message._id)
+                
             }
         })
         .catch((err) => {
@@ -57,8 +59,40 @@ const ViewEvents = () => {
     const handleUpdateEvent = (e) => {
         const eventId = e.currentTarget.dataset.id
         navigate(`/update-event/${userId}/${eventId}`)
-    }
+    } 
 
+    const getStatus = (itemDate) => {
+
+        let d = new Date()
+        let dYear = d.getFullYear() 
+        let dMonth = d.getMonth() 
+        let dDay = d.getDate()
+
+        let savedDate = itemDate.split("T")[0]
+        let modDate = savedDate.split("-")
+        let savedYear = parseInt(modDate[0])
+        let savedMonth = parseInt(modDate[1])
+        let savedDay = parseInt(modDate[2])
+
+        if ((savedMonth > dMonth) && (savedYear > dYear)) {
+            return <td>Ahead</td>
+        }else if ((savedMonth < dMonth) && (savedYear > dYear)) {
+            return <td>Ahead</td>
+        }else if ((savedMonth > dMonth) && (savedYear < dYear)) {
+            return <td>Expired</td>
+        }else if ((savedMonth < dMonth) && (savedYear < dYear)) {
+            return <td>Expired</td>
+        }else if ((savedMonth === dMonth) && (savedYear === dYear) && savedDay > dDay) {
+            return <td>Ahead</td>
+        }else if ((savedMonth === dMonth) && (savedYear === dYear) && savedDay < dDay) {
+            return <td>Expired</td>
+        }else if ((savedMonth === dMonth) && (savedYear < dYear)) {
+            return <td>Expired</td>
+        }else if ((savedMonth === dMonth) && (savedYear > dYear)) {
+            return <td>Ahead</td>
+        }
+    }
+    
     return (
         <div className="view-container">
             <Navbar />
@@ -78,7 +112,7 @@ const ViewEvents = () => {
                         <td>{item.event}</td>
                         <td>{item.datecreated.split("T")[0]}</td>
                         <td>{item.eventdate.split("T")[0]}</td>
-                        <td>Ahead</td>
+                        { getStatus(item.eventdate) }
                         <td><div className="edit-delete"><MdEdit className="edit-icon" data-id={item._id} onClick={handleUpdateEvent} /><MdDelete className="delete-icon" data-id={item._id} onClick={handleEventDelete} /></div></td>
                     </tr>
                 ))}
