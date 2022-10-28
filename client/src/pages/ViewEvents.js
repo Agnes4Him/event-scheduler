@@ -33,6 +33,20 @@ const ViewEvents = () => {
                 setNoEvents(true)
                 setExceptMsg("Internal server error. Try again")
             }else {
+                /*for (var i = 0; i < (result.message.events).length; i++) {
+                    let edate = result.message.events[i].eventdate
+                    console.log(edate)
+                    let mdate = edate.split("T")[0]
+                    let eday = mdate.split("-")[2]
+                    let new_day = eday.split("")
+                    var single_day
+                    if (new_day[0] === "0") {
+                        single_day = parseInt(new_day[1])
+                    }else {
+                        single_day = parseInt(eday)
+                    }
+                    console.log(typeof(single_day))
+                } */
                 setNoEvents(false)
                 setData(result.message.events)
                 setUserId(result.message._id)
@@ -65,30 +79,40 @@ const ViewEvents = () => {
 
         let d = new Date()
         let dYear = d.getFullYear() 
-        let dMonth = d.getMonth() 
+        let dMonth = d.getMonth() + 1
         let dDay = d.getDate()
+        let modMonth = dMonth.toString()
+        let modDay = dDay.toString()
+        var month
+        var day
+        if (modMonth.length === 1) {
+            month = "0" + modMonth
+            month = parseInt(month)
+        }else {
+            month = parseInt(modMonth)
+        }
+        if (modDay.length === 1) {
+            day = "0" + modDay
+            day = parseInt(day)
+        }else {
+            day = parseInt(modDay)
+        }
 
         let savedDate = itemDate.split("T")[0]
         let modDate = savedDate.split("-")
         let savedYear = parseInt(modDate[0])
         let savedMonth = parseInt(modDate[1])
-        let savedDay = parseInt(modDate[2])
-
-        if ((savedMonth > dMonth) && (savedYear > dYear)) {
-            return <td>Ahead</td>
-        }else if ((savedMonth < dMonth) && (savedYear > dYear)) {
-            return <td>Ahead</td>
-        }else if ((savedMonth > dMonth) && (savedYear < dYear)) {
+        var savedDay = parseInt(modDate[2])
+        
+        if (savedYear < dYear) {
             return <td>Expired</td>
-        }else if ((savedMonth < dMonth) && (savedYear < dYear)) {
+        }else if ((savedYear === dYear) && (savedMonth < month)) {
             return <td>Expired</td>
-        }else if ((savedMonth === dMonth) && (savedYear === dYear) && savedDay > dDay) {
-            return <td>Ahead</td>
-        }else if ((savedMonth === dMonth) && (savedYear === dYear) && savedDay < dDay) {
+        }else if ((savedYear === dYear) && (savedMonth === month) && (savedDay < day)) {
             return <td>Expired</td>
-        }else if ((savedMonth === dMonth) && (savedYear < dYear)) {
-            return <td>Expired</td>
-        }else if ((savedMonth === dMonth) && (savedYear > dYear)) {
+        }else if ((savedYear === dYear) && (savedMonth === month) && (savedDay === day)) {
+            return <td>Today</td>
+        }else {
             return <td>Ahead</td>
         }
     }
@@ -112,7 +136,7 @@ const ViewEvents = () => {
                         <td>{item.event}</td>
                         <td>{item.datecreated.split("T")[0]}</td>
                         <td>{item.eventdate.split("T")[0]}</td>
-                        { getStatus(item.eventdate) }
+                        <td>{ getStatus(item.eventdate) }</td>
                         <td><div className="edit-delete"><MdEdit className="edit-icon" data-id={item._id} onClick={handleUpdateEvent} /><MdDelete className="delete-icon" data-id={item._id} onClick={handleEventDelete} /></div></td>
                     </tr>
                 ))}

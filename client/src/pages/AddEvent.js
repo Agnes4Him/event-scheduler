@@ -18,9 +18,9 @@ const AddEvent = () => {
     }
 
     const handleSaveEvent = () => {
-        // Send a post request to the backend
 
-        // Check for empty fields first
+        // Send a post request to the backend
+        
         if (eventEmail.length === 0) {
             setEventError("Email is required")
             setEventSuccess("")
@@ -63,7 +63,7 @@ const AddEvent = () => {
             })
         }
       
-    }
+    } 
 
     return (
         <div>
@@ -76,7 +76,7 @@ const AddEvent = () => {
             </div>
             <div className="date-container">
                 <p className="date-text">Date</p>
-                <Calendar onChange={setDate} value={date} />
+                <Calendar onChange={setDate} value={date} minDate={new Date()} />
             </div>
             <div className="email-container">
                 <p className="email-text">Email</p>
